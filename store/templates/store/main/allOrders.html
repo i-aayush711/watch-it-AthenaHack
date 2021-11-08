@@ -1,0 +1,43 @@
+{% extends 'store/main/base.html' %}
+{% block content %}
+<div class="main-content">
+    <div class="container">
+        <div class="order-section">
+            <h2>Your Orders: </h2>
+            <table class="table table-bordered mt-4">
+                <thead>
+                    <tr>
+                        <th>Order Id</th>
+                        <th>Product Ordered</th>
+                        <th>Quantity</th>
+                        <th>Total Price</th>
+                        <th>Placed on:</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>{{ order.order.transaction_id }}</td>
+                        <td>{{ order.product.name }}</td>
+                        <td>{{ order.quantity }}</td>
+                        <td>{{ order.get_total }}</td>
+                        <td>{{ order.order.date_ordered }}</td>
+                        {% if order.status == 'Accepted' %}
+                            <td><p class="badge badge-pill badge-success p-2">Accepted</p></td>
+                        {% else %}
+                            <td><span class="badge badge-pill badge-danger p-2">Rejected</span></td>
+                        {% endif %}
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4">No Information Available</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% url 'home' %}" class="filled-button">Go Back</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
